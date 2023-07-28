@@ -51,6 +51,16 @@ namespace HelloWorldService.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Contact value)
         {
+            if (string.IsNullOrEmpty(value.Name))
+            {
+                var errorResponse = new ErrorResponse 
+                {
+                     DBCode = ErrorType.MissingField,
+                     Message = "Null or Empty Name",
+                     FieldName = "Name",
+                };
+                return BadRequest(errorResponse);
+            }
             value.Id = currentId++;
             value.DateAdded = DateTime.UtcNow;
             //value.AddedByWho = "tbd";
@@ -64,21 +74,37 @@ namespace HelloWorldService.Controllers
 
         // PUT api/<ContactsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Contact value)
+        public IActionResult Put(int id, [FromBody] Contact value)
         {
             var contact = contacts.FirstOrDefault(t => t.Id == id);
+
+            if (contact == null)
+            {
+                return NotFound(null);
+            }
 
             // DO NOT copy the contact.ID field from value
 
             contact.Name = value.Name;
             contact.Phones = value.Phones;
+
+            return Ok(contact);
         }
 
         // DELETE api/<ContactsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             var rowsDeleted = contacts.RemoveAll(t => t.Id == id);
+
+            if (rowsDeleted == 0)
+            {
+                return NotFound(null);
+            }
+            else
+            {
+                return Ok();
+            }
         }
     }
 }
