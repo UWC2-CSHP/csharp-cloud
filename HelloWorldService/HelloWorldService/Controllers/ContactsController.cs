@@ -14,12 +14,15 @@ namespace HelloWorldService.Controllers
 
         private static List<Contact> contacts = new List<Contact>();
 
-        //private readonly ILogger<ContactsController> _logger;
+        private readonly ILogger<ContactsController> _logger;
 
-        //public ContactsController(ILogger<ContactsController> logger)
-        //{
-        //    _logger = logger;
-        //}
+        public ContactsController(ILogger<ContactsController> logger)
+        {
+            _logger = logger;
+            _logger.LogInformation("INFO");
+            _logger.LogWarning("WARNING");
+            _logger.LogError("ERROR");
+        }
 
         // GET: api/<ContactsController>
         [HttpGet]
@@ -30,20 +33,33 @@ namespace HelloWorldService.Controllers
 
         // GET api/<ContactsController>/5
         [HttpGet("{id}")]
-        public Contact Get(int id)
+        public IActionResult Get(int id)
         {
             var contact = contacts.FirstOrDefault(t => t.Id == id);
-            return contact;
+
+            if (contact == null)
+            {
+                return NotFound(null);
+            }
+            else
+            {
+                return Ok(contact);
+            }
         }
 
         // POST api/<ContactsController>
         [HttpPost]
-        public void Post([FromBody] Contact value)
+        public IActionResult Post([FromBody] Contact value)
         {
             value.Id = currentId++;
             value.DateAdded = DateTime.UtcNow;
             //value.AddedByWho = "tbd";
             contacts.Add(value);
+
+            //var result = new { Id = value.Id, Candy = true };
+
+            // Look at the "Location" header in the response output in Postman
+            return CreatedAtAction(nameof(Get), new { id = value.Id }, value);
         }
 
         // PUT api/<ContactsController>/5
