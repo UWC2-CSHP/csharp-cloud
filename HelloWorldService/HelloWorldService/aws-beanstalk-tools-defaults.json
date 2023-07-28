@@ -1,0 +1,20 @@
+
+{
+    "region" : "us-west-2",
+    "configuration" : "Debug",
+    "framework"     : "net6.0",
+    "self-contained" : false,
+    "application"    : "HelloWorldService",
+    "environment"    : "HelloWorldService-dan",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-c91565ac\";\"aws:ec2:vpc,Subnets\"=\"subnet-b52d98d0\"",
+    "solution-stack"       : "64bit Amazon Linux 2 v2.5.5 running .NET Core",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "helloworldservice-dan",
+    "instance-type"        : "t3a.medium",
+    "key-pair"             : "aws-cloud-class",
+    "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
+    "service-role"         : "AWSElasticBeanstalkFullAccess",
+    "proxy-server"         : "nginx"
+}
