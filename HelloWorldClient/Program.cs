@@ -6,6 +6,30 @@ var client = new HttpClient();
 client.BaseAddress = new Uri("http://localhost:5170/api/");
 // client.DefaultRequestHeaders.Add("Accept", "application/json");
 
+// Post a new contact
+var newContact = new Contact
+{
+    Name = "New Name",
+    Phones = new[] {
+            new Phone {
+                Number = "425-111-2222",
+                PhoneType = PhoneType.Mobile
+            }
+        }
+};
+
+var newJson = JsonSerializer.Serialize(newContact);
+
+var postContent = new StringContent(
+        newJson,
+        System.Text.Encoding.UTF8,
+        "application/json");
+
+var postResult = await client.PostAsync("contacts", postContent);
+
+Console.WriteLine(postResult.StatusCode);
+
+// Get All Contacts
 var result = await client.GetAsync("contacts");
 
 var json = await result.Content.ReadAsStringAsync();
@@ -33,7 +57,7 @@ public class Contact
 
 public class Phone
 {
-    [JsonPropertyName("phone_number")]
+    [JsonPropertyName("number")]
     public string Number { get; set; }
 
     [JsonPropertyName("phone_type")]
