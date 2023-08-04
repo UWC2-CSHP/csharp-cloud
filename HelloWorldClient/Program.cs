@@ -27,6 +27,10 @@ var postContent = new StringContent(
 
 var postResult = await client.PostAsync("contacts", postContent);
 
+var postJson = postResult.Content.ReadAsStringAsync().Result;
+var postContact = JsonSerializer.Deserialize<Contact>(postJson);
+var id = postContact.Id;
+
 Console.WriteLine(postResult.StatusCode);
 
 // Get All Contacts
@@ -37,6 +41,13 @@ var json = await result.Content.ReadAsStringAsync();
 Console.WriteLine(json);
 
 var list = JsonSerializer.Deserialize<List<Contact>>(json);
+
+// Delete the added contact
+// OR - var id = list[0].Id;
+
+var deleteResult = client.DeleteAsync("contacts/" + id).Result;
+Console.WriteLine(deleteResult.StatusCode);
+
 
 Console.ReadLine();
 
