@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorldLambda", "HelloWo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldClient", "..\HelloWorldClient\HelloWorldClient.csproj", "{07532ADD-4E13-4933-A6BB-49E23FA0D641}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldService.Tests", "..\HelloWorldService.Tests\HelloWorldService.Tests.csproj", "{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{07532ADD-4E13-4933-A6BB-49E23FA0D641}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07532ADD-4E13-4933-A6BB-49E23FA0D641}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07532ADD-4E13-4933-A6BB-49E23FA0D641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
