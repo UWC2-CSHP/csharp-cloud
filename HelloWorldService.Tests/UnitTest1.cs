@@ -1,4 +1,5 @@
 using System.Text.Json;
+using FluentAssertions;
 using NUnit.Framework;
 using System;
 using System.Net;
@@ -45,6 +46,8 @@ namespace HelloWorldService.Tests
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Created, postResult.StatusCode);
+
+            postResult.StatusCode.Should().Be(HttpStatusCode.Created);
         }
     }
 }
