@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HelloWorldService.Controllers
 {
+    /// <summary>
+    /// This allows operations on Contact objects
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ContactsController : ControllerBase
@@ -24,6 +27,10 @@ namespace HelloWorldService.Controllers
             _logger.LogError("ERROR");
         }
 
+        /// <summary>
+        /// Get all contacts
+        /// </summary>
+        /// <returns>List of contacts</returns>
         // GET: api/<ContactsController>
         [HttpGet]
         public IActionResult Get()

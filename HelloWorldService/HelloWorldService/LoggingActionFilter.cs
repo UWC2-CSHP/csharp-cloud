@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace HelloWorldService
 {
@@ -26,13 +27,14 @@ namespace HelloWorldService
 
             var webroot = env.ContentRootPath;
 
-            var controllerName = "";
-            var methodName = "";
+            var controllerName = actionExecutedContext.Controller.ToString();
+            var controller = (ControllerBase)actionExecutedContext.Controller;
+            var actionName = controller.Request.Method;
             
             var filepath = Path.Combine(webroot, "logger.txt");
 
-            var logline = string.Format("{0} : {1} {2} Elapsed={1}\n",
-                System.DateTime.Now, controllerName, methodName, stopwatch.Elapsed);
+            var logline = string.Format("{0} : {1} {2} Elapsed={3}\n",
+                System.DateTime.Now, controllerName, actionName, stopwatch.Elapsed);
 
             File.AppendAllText(filepath, logline);
         }

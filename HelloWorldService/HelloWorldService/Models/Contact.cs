@@ -3,8 +3,14 @@ using System.Text.Json.Serialization;
 
 namespace HelloWorldService.Models
 {
+    /// <summary>
+    /// This is the Contact data object
+    /// </summary>
     public class Contact
     {
+        /// <summary>
+        /// This is the primary key
+        /// </summary>
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
