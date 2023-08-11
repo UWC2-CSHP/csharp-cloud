@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HelloWorldService.Controllers
 {
@@ -7,8 +8,14 @@ namespace HelloWorldService.Controllers
     public class ErrorController : ControllerBase
     {
         [HttpGet]
-        [Route("{code}")]
-        public IActionResult Error(int code) => new ObjectResult(new ApiResponse(code));
+        [Route("/error/{code}")]
+        public IActionResult Error(int code)
+        {
+            var feature = HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+            return new ObjectResult(new ApiResponse(code, feature.Error.Message));
+        }
+
 
         //[Route("{code}")]
         //public IActionResult Error2(int code)

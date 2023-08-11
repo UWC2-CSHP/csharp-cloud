@@ -28,8 +28,8 @@ namespace HelloWorldService.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            int x = 1;
-            x = x / (x - 1);
+            //int x = 1;
+            //x = x / (x - 1);
             return Ok(contacts);
         }
 
