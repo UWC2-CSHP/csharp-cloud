@@ -26,9 +26,11 @@ namespace HelloWorldService.Controllers
 
         // GET: api/<ContactsController>
         [HttpGet]
-        public IEnumerable<Contact> Get()
+        public IActionResult Get()
         {
-            return contacts;
+            int x = 1;
+            x = x / (x - 1);
+            return Ok(contacts);
         }
 
         // GET api/<ContactsController>/5
@@ -53,11 +55,11 @@ namespace HelloWorldService.Controllers
         {
             if (string.IsNullOrEmpty(value.Name))
             {
-                var errorResponse = new ErrorResponse 
+                var errorResponse = new ErrorResponse
                 {
-                     DBCode = ErrorType.MissingField,
-                     Message = "Null or Empty Name",
-                     FieldName = "Name",
+                    DBCode = ErrorType.MissingField,
+                    Message = "Null or Empty Name",
+                    FieldName = "Name",
                 };
                 return BadRequest(errorResponse);
             }

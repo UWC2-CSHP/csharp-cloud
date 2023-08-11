@@ -19,6 +19,8 @@ var app = builder.Build();
     app.UseSwaggerUI();
 //}
 
+app.UseExceptionHandler("/error/500");
+
 app.UseAuthorization();
 
 app.MapControllers();
