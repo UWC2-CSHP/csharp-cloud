@@ -51,6 +51,12 @@ Console.WriteLine(deleteResult.StatusCode);
 
 Console.ReadLine();
 
+public class Token
+{
+    [JsonPropertyName("token")]
+    public string TokenString { get; set; }
+}
+
 public class Contact
 {
     [JsonPropertyName("id")]

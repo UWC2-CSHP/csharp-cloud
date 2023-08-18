@@ -1,0 +1,6 @@
+8/17/2023 6:49:48 PM : HelloWorldService.Controllers.TokenController POST Elapsed=00:07:20.8626056
+8/17/2023 6:51:50 PM : HelloWorldService.Controllers.TokenController GET Elapsed=00:00:19.6950935
+8/17/2023 7:01:59 PM : HelloWorldService.Controllers.TokenController POST Elapsed=00:00:07.9914970
+8/17/2023 7:03:15 PM : HelloWorldService.Controllers.TokenController POST Elapsed=00:00:03.0267799
+8/17/2023 7:07:22 PM : HelloWorldService.Controllers.TokenController POST Elapsed=00:00:02.0866326
+8/17/2023 7:08:10 PM : HelloWorldService.Controllers.ContactsController GET Elapsed=00:00:00.0007149
