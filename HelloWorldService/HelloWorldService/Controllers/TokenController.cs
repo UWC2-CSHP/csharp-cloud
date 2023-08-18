@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace HelloWorldService.Controllers
 {
@@ -8,7 +9,7 @@ namespace HelloWorldService.Controllers
         public string Password { get; set; }
     }
 
-    [Route("api/[controller]")]
+    [Route("api/token")]
     [ApiController]
     public class TokenController : ControllerBase
     {
@@ -21,7 +22,7 @@ namespace HelloWorldService.Controllers
         }
 
         // This should require SSL
-        [HttpGet]
+        [HttpGet("{userName}/{password}")]
         public dynamic Get(string userName, string password)
         {
             var token = TokenHelper.GetToken(userName, password);
