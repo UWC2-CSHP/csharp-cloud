@@ -11,7 +11,7 @@ namespace HelloWorldService.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authenticator]
+    //[Authenticator]
     public class ContactsController : ControllerBase
     {
         private static int currentId = 101;
