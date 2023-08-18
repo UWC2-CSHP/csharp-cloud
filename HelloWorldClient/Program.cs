@@ -4,7 +4,13 @@ using System.Text.Json.Serialization;
 var client = new HttpClient();
 
 client.BaseAddress = new Uri("http://localhost:5170/api/");
-// client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+// Call GET Token
+var tokenResult = client.GetAsync("token?userName=dave&password=pass").Result;
+var tokenJson = tokenResult.Content.ReadAsStringAsync().Result;
+var token = JsonSerializer.Deserialize<Token>(tokenJson);
+
+client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.TokenString);
 
 // Post a new contact
 var newContact = new Contact

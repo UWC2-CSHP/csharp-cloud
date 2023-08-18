@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddMvc(config => {
-    config.Filters.Add<LoggingActionFilter>(); // ADD ME
+    //config.Filters.Add<LoggingActionFilter>(); // ADD ME
 }).AddXmlSerializerFormatters();
 
 builder.Services.AddCors(options =>

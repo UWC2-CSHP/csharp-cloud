@@ -2,9 +2,16 @@ using System.Text.Json;
 using FluentAssertions;
 using System.Net;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using System.Text.Json.Serialization;
 
 namespace HelloWorldService.Tests
 {
+    public class Token
+    {
+        [JsonPropertyName("token")]
+        public string TokenString { get; set; }
+    }
     public class ContactTests
     {
         HttpClient client;
@@ -15,6 +22,12 @@ namespace HelloWorldService.Tests
         {
             client = new HttpClient();
             client.BaseAddress = new Uri("http://localhost:5170/api/");
+
+            var tokenResult = client.GetAsync("token?userName=dave&password=pass").Result;
+            var tokenJson = tokenResult.Content.ReadAsStringAsync().Result;
+            var token = JsonSerializer.Deserialize<Token>(tokenJson);
+
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.TokenString);
         }
 
         [Test]
