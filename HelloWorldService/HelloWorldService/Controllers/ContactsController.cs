@@ -9,7 +9,7 @@ namespace HelloWorldService.Controllers
     /// <summary>
     /// This allows operations on Contact objects
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/contacts")]
     [ApiController]
     //[Authenticator]
     public class ContactsController : ControllerBase
@@ -39,6 +39,21 @@ namespace HelloWorldService.Controllers
             //int x = 1;
             //x = x / (x - 1);
             return Ok(contacts);
+        }
+
+        [HttpGet("{contactId:int}/orders")]
+        public IActionResult GetCustomerOrders(int contactId)
+        {
+            var contact = contacts.FirstOrDefault(t => t.Id == contactId);
+
+            if (contact == null)
+            {
+                return NotFound(null);
+            }
+            else
+            {
+                return Ok(contact);
+            }
         }
 
         // GET api/<ContactsController>/5
