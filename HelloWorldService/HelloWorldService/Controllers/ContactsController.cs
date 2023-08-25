@@ -43,7 +43,7 @@ namespace HelloWorldService.Controllers
         [HttpGet("{contactId:int}/orders")]
         public IActionResult GetCustomerOrders(int contactId)
         {
-            var contact = contacts.FirstOrDefault(t => t.Id == contactId);
+            var contact = contactRepository.Contacts.FirstOrDefault(t => t.Id == contactId);
 
             if (contact == null)
             {
@@ -59,7 +59,8 @@ namespace HelloWorldService.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var contact = contacts.FirstOrDefault(t => t.Id == id);
+            // BUGBUG: don't want to load all contacts
+            var contact = contactRepository.Contacts.FirstOrDefault(t => t.Id == id);
 
             if (contact == null)
             {
@@ -85,11 +86,8 @@ namespace HelloWorldService.Controllers
             //    };
             //    return BadRequest(errorResponse);
             //}
-            
-            value.Id = currentId++;
-            value.DateAdded = DateTime.UtcNow;
-            //value.AddedByWho = "tbd";
-            contacts.Add(value);
+                        
+            contactRepository.Add(value);
 
             //var result = new { Id = value.Id, Candy = true };
 
@@ -101,34 +99,27 @@ namespace HelloWorldService.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Contact value)
         {
-            var contact = contacts.FirstOrDefault(t => t.Id == id);
-
-            if (contact == null)
+            if (contactRepository.Update(id, value))
             {
-                return NotFound(null);
+                return Ok(value);
             }
 
-            // DO NOT copy the contact.ID field from value
-
-            contact.Name = value.Name;
-            contact.Phones = value.Phones;
-
-            return Ok(contact);
+            return NotFound(null);
         }
 
         // DELETE api/<ContactsController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var rowsDeleted = contacts.RemoveAll(t => t.Id == id);
+            bool deleted = contactRepository.Delete(id);
 
-            if (rowsDeleted == 0)
+            if (deleted)
             {
-                return NotFound(null);
+                return Ok();
             }
             else
             {
-                return Ok();
+                return NotFound(null);
             }
         }
     }
