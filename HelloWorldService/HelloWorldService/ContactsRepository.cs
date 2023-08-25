@@ -1,4 +1,5 @@
 ﻿using HelloWorldService.Models;
+using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 
 namespace HelloWorldService
@@ -13,12 +14,16 @@ namespace HelloWorldService
 
     public class ContactRepository : IContactRepository
     {
+        private IMemoryCache memoryCache;
+
         private static int currentId = 101;
 
         private static List<Contact> contacts = new List<Contact>();
 
-        public ContactRepository()
+        public ContactRepository(IMemoryCache memoryCache)
         {
+            this.memoryCache = memoryCache;
+
             //contacts.Add(new Contact { Name = "First One" });
             //contacts.Add(new Contact { Name = "Second One" });
             //contacts.Add(new Contact { Name = "Third One" });
@@ -29,7 +34,22 @@ namespace HelloWorldService
         {
             get
             {
-                return contacts;
+                List<Contact> items;
+
+                if (!memoryCache.TryGetValue("MyContacts", out items))
+                {
+                    // load data from database
+                    items = contacts;
+
+                    // Store the "database" results in the cache for 20 seconds
+                    memoryCache.Set("MyContacts", items,
+                        new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(System.TimeSpan.FromMinutes(60)));
+
+                }
+
+                // return data
+                return items;
             }
         }
 
@@ -38,7 +58,7 @@ namespace HelloWorldService
             contact.Id = currentId++;
             contact.DateAdded = DateTime.UtcNow;
             //value.AddedByWho = "tbd";
-            
+
             contacts.Add(contact);
         }
 
