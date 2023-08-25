@@ -5,6 +5,7 @@ namespace HelloWorldService.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorController : ControllerBase
     {
         [HttpGet]
