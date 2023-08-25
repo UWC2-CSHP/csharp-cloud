@@ -15,6 +15,9 @@ builder.Services.AddSwaggerGen(options =>
 
     // true is to allow for controller comments
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename), true);
+
+    // ADD ME to resolve issue with unique method/path
+    options.ResolveConflictingActions(apiDesc => apiDesc.First());
 });
 
 builder.Services.AddMvc(config => {

@@ -9,9 +9,10 @@ namespace HelloWorldService.Controllers
     /// <summary>
     /// This allows operations on Contact objects
     /// </summary>
-    [Route("api/v2/contacts")]
+    [Route("api/contacts")]
     [ApiController]
-    //[Header("My-Api-Key", "2")]
+    [Header("My-Api-Key","2")]
+    //[Header("Accept","application/vnd.contacts.v2+json")]
     //[Authenticator]
     public class ContactsV2Controller : ControllerBase
     {
