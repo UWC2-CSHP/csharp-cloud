@@ -14,18 +14,17 @@ namespace HelloWorldService.Controllers
     //[Authenticator]
     public class ContactsController : ControllerBase
     {
-        private static int currentId = 101;
-
-        private static List<Contact> contacts = new List<Contact>();
+        private readonly IContactRepository contactRepository; // ADD ME
 
         private readonly ILogger<ContactsController> _logger;
 
-        public ContactsController(ILogger<ContactsController> logger)
+        public ContactsController(ILogger<ContactsController> logger, IContactRepository contactRepository)
         {
             _logger = logger;
             _logger.LogInformation("INFO");
             _logger.LogWarning("WARNING");
             _logger.LogError("ERROR");
+            this.contactRepository = contactRepository;
         }
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace HelloWorldService.Controllers
         {
             //int x = 1;
             //x = x / (x - 1);
-            return Ok(contacts);
+            return Ok(contactRepository.Contacts);
         }
 
         [HttpGet("{contactId:int}/orders")]
@@ -76,16 +75,17 @@ namespace HelloWorldService.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Contact value)
         {
-            if (string.IsNullOrEmpty(value.Name))
-            {
-                var errorResponse = new ErrorResponse
-                {
-                    DBCode = ErrorType.MissingField,
-                    Message = "Null or Empty Name",
-                    FieldName = "Name",
-                };
-                return BadRequest(errorResponse);
-            }
+            //if (string.IsNullOrEmpty(value.Name))
+            //{
+            //    var errorResponse = new ErrorResponse
+            //    {
+            //        DBCode = ErrorType.MissingField,
+            //        Message = "Null or Empty Name",
+            //        FieldName = "Name",
+            //    };
+            //    return BadRequest(errorResponse);
+            //}
+            
             value.Id = currentId++;
             value.DateAdded = DateTime.UtcNow;
             //value.AddedByWho = "tbd";
