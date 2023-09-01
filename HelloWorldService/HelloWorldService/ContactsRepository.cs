@@ -1,6 +1,6 @@
 ﻿using HelloWorldService.Models;
 using Microsoft.Extensions.Caching.Memory;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore; // ADD ME
 
 namespace HelloWorldService
 {
@@ -39,7 +39,25 @@ namespace HelloWorldService
                 if (!memoryCache.TryGetValue("MyContacts", out items))
                 {
                     // load data from database
-                    items = contacts;
+                    var database = new Db.ContactsContext();
+
+                    var contacts = database.Contacts
+                        .Include(t => t.ContactPhones);
+
+                    items = contacts
+                        .Select(c => new Contact
+                        {
+                            Id = c.ContactId,
+                            Name = c.ContactName,
+                            DateAdded = c.ContactCreatedDate,
+                            Phones = c.ContactPhones.Select(p => new Phone
+                            {
+                                Number = p.ContactPhoneNumber,
+                                PhoneType = (PhoneType)p.ContactPhoneType,
+
+                            }).ToArray(),
+                        })
+                        .ToList();
 
                     // Store the "database" results in the cache for 20 seconds
                     memoryCache.Set("MyContacts", items,
