@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HelloWorldService.Db
 {
-    public partial class ContactsContext : DbContext
+    public partial class HelloWorldContext : DbContext
     {
-        public ContactsContext()
+        public HelloWorldContext()
         {
         }
 
-        public ContactsContext(DbContextOptions<ContactsContext> options)
+        public HelloWorldContext(DbContextOptions<HelloWorldContext> options)
             : base(options)
         {
         }
@@ -24,7 +24,7 @@ namespace HelloWorldService.Db
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=(local);Initial Catalog=Contacts;integrated security=True");
+                optionsBuilder.UseSqlServer("Data Source=helloworld-uow.cnvp2nhpfeld.us-west-2.rds.amazonaws.com;Initial Catalog=HelloWorld;User Id=admin;Password=Password1");
             }
         }
 

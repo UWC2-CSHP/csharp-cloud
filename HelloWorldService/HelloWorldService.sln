@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorldService", "HelloW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorldLambda", "HelloWorldLambda\HelloWorldLambda.csproj", "{4A2DDB14-7BC4-4C6D-A99C-0D8139B17385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldClient", "..\HelloWorldClient\HelloWorldClient.csproj", "{07532ADD-4E13-4933-A6BB-49E23FA0D641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorldClient", "..\HelloWorldClient\HelloWorldClient.csproj", "{07532ADD-4E13-4933-A6BB-49E23FA0D641}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldService.Tests", "..\HelloWorldService.Tests\HelloWorldService.Tests.csproj", "{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorldService.Tests", "..\HelloWorldService.Tests\HelloWorldService.Tests.csproj", "{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImgurKittens", "..\ImgurKittens\ImgurKittens.csproj", "{2E08D2D2-BB98-46E2-842B-5C618CC47FA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7438F4C5-0877-40D5-AD39-FC96EAB0A6E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E08D2D2-BB98-46E2-842B-5C618CC47FA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E08D2D2-BB98-46E2-842B-5C618CC47FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E08D2D2-BB98-46E2-842B-5C618CC47FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E08D2D2-BB98-46E2-842B-5C618CC47FA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

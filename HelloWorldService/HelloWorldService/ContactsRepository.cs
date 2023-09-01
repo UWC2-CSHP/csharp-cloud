@@ -14,7 +14,7 @@ namespace HelloWorldService
 
     public class ContactRepository : IContactRepository
     {
-        private static Db.ContactsContext database = new Db.ContactsContext();
+        private static Db.HelloWorldContext database = new Db.HelloWorldContext();
 
         private IMemoryCache memoryCache;
 
@@ -103,7 +103,7 @@ namespace HelloWorldService
             catch (DbUpdateException ex)
             {
                 database.Dispose();
-                database = new Db.ContactsContext();
+                database = new Db.HelloWorldContext();
                 throw;
                 //throw new DatabaseException("Missing PhoneNumber")
             }
