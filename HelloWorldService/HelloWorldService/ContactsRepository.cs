@@ -14,6 +14,8 @@ namespace HelloWorldService
 
     public class ContactRepository : IContactRepository
     {
+        private static Db.ContactsContext database = new Db.ContactsContext();
+
         private IMemoryCache memoryCache;
 
         private static int currentId = 101;
@@ -39,8 +41,6 @@ namespace HelloWorldService
                 if (!memoryCache.TryGetValue("MyContacts", out items))
                 {
                     // load data from database
-                    var database = new Db.ContactsContext();
-
                     var contacts = database.Contacts
                         .Include(t => t.ContactPhones);
 
@@ -62,7 +62,7 @@ namespace HelloWorldService
                     // Store the "database" results in the cache for 20 seconds
                     memoryCache.Set("MyContacts", items,
                         new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(System.TimeSpan.FromMinutes(60)));
+                        .SetAbsoluteExpiration(System.TimeSpan.FromSeconds(1)));
 
                 }
 
@@ -73,34 +73,100 @@ namespace HelloWorldService
 
         public void Add(Contact contact)
         {
-            contact.Id = currentId++;
-            contact.DateAdded = DateTime.UtcNow;
-            //value.AddedByWho = "tbd";
+            try
+            {
+                var dbContact = new Db.Contact
+                {
+                    ContactName = contact.Name,
+                    ContactPhones = contact.Phones.Select(p => new Db.ContactPhone
+                    {
+                        ContactPhoneNumber = p.Number,
+                        ContactPhoneType = (int)p.PhoneType,
+                    }).ToArray(),
+                };
 
-            contacts.Add(contact);
+                database.Contacts.Add(dbContact);
+
+                database.SaveChanges();
+
+                contact.Id = dbContact.ContactId;
+                contact.Name = dbContact.ContactName;
+                contact.DateAdded = dbContact.ContactCreatedDate;
+                contact.Phones = dbContact.ContactPhones
+                    .Select(p => new Phone
+                    {
+                        Number = p.ContactPhoneNumber,
+                        PhoneType = (PhoneType)p.ContactPhoneType,
+                    }).ToArray();
+
+            }
+            catch (DbUpdateException ex)
+            {
+                database.Dispose();
+                database = new Db.ContactsContext();
+                throw;
+                //throw new DatabaseException("Missing PhoneNumber")
+            }
+
         }
 
         public bool Delete(int contactId)
         {
-            var rowsDeleted = contacts.RemoveAll(t => t.Id == contactId);
+            var contact = database.Contacts.Include(t => t.ContactPhones).FirstOrDefault(t => t.ContactId == contactId);
 
-            return (rowsDeleted > 0);
+            if (contact == null)
+            {
+                return false;
+            }
+            database.ContactPhones.RemoveRange(contact.ContactPhones);
+            database.Contacts.Remove(contact);
+
+            database.SaveChanges();
+
+            return true;
         }
 
-        public bool Update(int contactId, Contact contact)
+        public bool Update(int contactId, Contact updatedContact)
         {
-            var contactFound = contacts.FirstOrDefault(t => t.Id == contactId);
+            var dbContact = database.Contacts.Include(t => t.ContactPhones).FirstOrDefault(t => t.ContactId == contactId);
 
-            if (contactFound != null)
+            if (dbContact == null)
             {
-                contactFound.Id = contactId;
-                contactFound.Name = contact.Name;
-                contactFound.Phones = contact.Phones;
-
-                return true;
+                return false;
             }
 
-            return false;
+            dbContact.ContactName = updatedContact.Name;
+
+            if (updatedContact.Phones != null)
+            {
+                dbContact.ContactPhones = updatedContact.Phones.Select(p => new Db.ContactPhone
+                {
+                    ContactId = contactId,
+                    ContactPhoneNumber = p.Number,
+                    ContactPhoneType = (int)p.PhoneType,
+                }).ToArray();
+            }
+
+            database.Contacts.Update(dbContact);
+
+            // BUGBUG:'The association between entity types 'Contact' and 'ContactPhone' has been severed, but the relationship is either marked as required or is implicitly required because the foreign key is not nullable. If the dependent/child entity should be deleted when a required relationship is severed
+            database.SaveChanges();
+
+            updatedContact.Id = dbContact.ContactId;
+            updatedContact.Name = dbContact.ContactName;
+            updatedContact.DateAdded = dbContact.ContactCreatedDate;
+            updatedContact.Phones = dbContact.ContactPhones
+                .Select(p => new Phone
+                {
+                    Number = p.ContactPhoneNumber,
+                    PhoneType = (PhoneType)p.ContactPhoneType,
+                }).ToArray();
+
+            // Automapper version
+            //updatedContact = mapper.Map<Contact>(contact);
+
+            return true;
+
         }
     }
 }
