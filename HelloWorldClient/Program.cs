@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 
 var client = new HttpClient();
 
+// client.Timeout = 
+
 client.BaseAddress = new Uri("http://localhost:5170/api/");
 
 // Call GET Token
