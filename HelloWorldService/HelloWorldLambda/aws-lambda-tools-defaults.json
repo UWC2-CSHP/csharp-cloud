@@ -16,7 +16,7 @@
     "framework"            : "net6.0",
     "function-name"        : "FirstCloudLambda",
     "package-type"         : "Zip",
-    "function-role"        : "arn:aws:iam::217532073384:role/lambda_basic_execution",
+    "function-role"        : "arn:aws:iam::217532073384:role/lambda_exec_FirstCloudLambda",
     "function-architecture" : "x86_64",
     "function-subnets"      : "",
     "function-security-groups" : "",
