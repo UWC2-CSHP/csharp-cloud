@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
+using TokenLibrary.Models;
 
-namespace MinimalTokenService
+namespace TokenLibrary
 {
     public static class TokenHelper
     {

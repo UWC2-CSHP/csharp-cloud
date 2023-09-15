@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace MinimalTokenService
+namespace TokenLibrary
 {
     public class Crypto
     {

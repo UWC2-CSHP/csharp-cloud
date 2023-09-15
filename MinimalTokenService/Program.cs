@@ -1,4 +1,5 @@
-using MinimalTokenService;
+using TokenLibrary;
+using TokenLibrary.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
