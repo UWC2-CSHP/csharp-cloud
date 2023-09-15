@@ -11,7 +11,7 @@
     "configuration" : "Release",
     "function-runtime" : "dotnet6",
     "function-memory-size" : 128,
-    "function-timeout"     : 1,
+    "function-timeout"     : 30,
     "function-handler"     : "ProcessS3Input::ProcessS3Input.Function::FunctionHandler",
     "framework"            : "net6.0",
     "function-name"        : "ProcessS3Input",
@@ -22,6 +22,6 @@
     "function-subnets"      : "",
     "function-security-groups" : "",
     "tracing-mode"             : "PassThrough",
-    "environment-variables"    : "",
+    "environment-variables"    : "\"DestinationBucket\"=\"uw-output\"",
     "image-tag"                : ""
 }

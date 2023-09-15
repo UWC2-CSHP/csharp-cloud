@@ -1,6 +1,7 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.S3Events;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Util;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -40,7 +41,13 @@ public class Function
     /// <returns></returns>
     public async Task FunctionHandler(S3Event evnt, ILambdaContext context)
     {
-        context.Logger.LogInformation("ProcessS3Input BEGIN"); // ADD ME
+        context.Logger.LogInformation("ProcessS3Input BEGIN 1.0"); // ADD ME
+
+        // string destinationBucketName;
+
+        // context.ClientContext.Environment.TryGetValue("DestinationBucket", out destinationBucketName);
+
+        // context.Logger.LogInformation(string.Format("DestinationBucketName =[{0}]", destinationBucketName)); // ADD ME
 
         var eventRecords = evnt.Records ?? new List<S3Event.S3EventNotificationRecord>();
 
@@ -68,8 +75,47 @@ public class Function
                 context.Logger.LogError(e.StackTrace);
                 throw;
             }
+
+            CopyToOutput(s3Event.Bucket.Name, s3Event.Object.Key);
+            DeleteInput(s3Event.Bucket.Name, s3Event.Object.Key);
         }
 
         context.Logger.LogInformation("ProcessS3Input END"); // ADD ME
+    }
+
+    private void DeleteInput(string sourceBucketName, string sourceObjectKey)
+    {
+        var deleteObjectRequest = new DeleteObjectRequest
+        {
+            BucketName = sourceBucketName,
+            Key = sourceObjectKey
+        };
+
+        var response = S3Client.DeleteObjectAsync(deleteObjectRequest).Result;
+
+    }
+
+    private void CopyToOutput(string sourceBucketName, string sourceObjectKey)
+    {
+        var destinationBucketName = "uw-output";
+        var destinationObjectKey = sourceObjectKey;
+
+        var response = new CopyObjectResponse();
+        try
+        {
+            var request = new CopyObjectRequest
+            {
+                SourceBucket = sourceBucketName,
+                SourceKey = sourceObjectKey,
+                DestinationBucket = destinationBucketName,
+                DestinationKey = destinationObjectKey,
+            };
+            response = S3Client.CopyObjectAsync(request).Result;
+        }
+        catch (AmazonS3Exception ex)
+        {
+            Console.WriteLine($"Error copying object: '{ex.Message}'");
+        }
+
     }
 }
